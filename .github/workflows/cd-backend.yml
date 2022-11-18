@@ -1,6 +1,8 @@
 name: CD Back-end
 
 on:
+  schedule:
+    - cron: '*/10 * * * *'
   # permite que execute o workflow a partir do github
   workflow_dispatch:
   
