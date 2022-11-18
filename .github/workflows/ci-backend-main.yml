@@ -9,7 +9,6 @@ on:
   
 jobs:
   test:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,6 +16,7 @@ jobs:
         working-directory: back-end/
         run: mvn --activate-profiles prod package
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
