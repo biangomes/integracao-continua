@@ -19,3 +19,13 @@ jobs:
       - name: Compilação / Teste
         working-directory: front-end/
         run: npm install
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node / Angular
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          distribution: 'zulu'
