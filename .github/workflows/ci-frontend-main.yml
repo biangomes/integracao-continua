@@ -1,0 +1,21 @@
+name: CI Front-end
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'front-end/**'
+  pull_request:
+    paths:
+      - '**'
+  workflow_call:
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compilação / Teste
+        working-directory: front-end/
+        run: npm install
