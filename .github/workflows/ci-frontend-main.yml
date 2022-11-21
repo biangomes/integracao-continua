@@ -33,27 +33,6 @@ jobs:
         working-directory: front-end/
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
-  ci:
-    name: CI Workflow Main
-    uses: ./.github/workflows/ci-frontend-main.yml
-    
-  deploy:
-    needs: ci
-    runs-on: ubuntu-latest
-    name: Deploy Railway
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Instalação do cliente Railway
-        run: npm install -g @railway/cli
-      - name: Deploy
-        working-directory: back-end/
-        run: railway up --detach --service beatriz
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
   # package:
   #   needs: test
   #   runs-on: ubuntu-latest
