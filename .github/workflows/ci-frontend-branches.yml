@@ -13,14 +13,14 @@ jobs:
     name: CI Workflow Front-end Main
     uses: ./.github/workflows/ci-frontend-main.yml
 
-  # merge:
-  #   needs: main
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Merge branch
-  #       uses: devmasx/merge-branch@1.4.0
-  #       with:
-  #         type: now
-  #         target-branch: main
-  #         github_to
+  merge:
+    needs: main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Merge branch
+        uses: devmasx/merge-branch@1.4.0
+        with:
+          type: now
+          target-branch: main
+          github_token: ${{ github.token }}

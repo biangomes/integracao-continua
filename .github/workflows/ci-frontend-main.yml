@@ -1,6 +1,8 @@
 name: CI Front-end
 
 on:
+  # permite que execute o workflow a partir do github
+  workflow_dispatch:
   push:
     branches:
       - 'main'
@@ -8,8 +10,7 @@ on:
       - 'front-end/**'
   pull_request:
     paths:
-      - '**'
-  workflow_call:
+      - 'front-end/**'
     
 jobs:
   test:
@@ -28,8 +29,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Node / Angular
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
-          distribution: 'zulu'
+          node-version: 16
+      - name: Install CLI Angular
+        uses: npm install -g @angular/cli
+      - name: Install with npm
+        working-directory: front-end/
+        run: npm install
+      - name: Build for production
+        run: npm run build --prod
+
+  deploy:
+    name: Deploy Angular App
+    runs-on: ubuntu-latest
