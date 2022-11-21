@@ -26,9 +26,15 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install
         working-directory: ./frontend
-        run: npm install && npm run build && cp dist/sgcmapp/index.html
+        run: npm install
         with:
           node-version: 16
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+      - name: Static 
+        working-directory: ./frontend/dist/sgcmapp/index.html
+        run: cp dist/sgcmapp/index.html
       - name: Teste
         working-directory: front-end/
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
