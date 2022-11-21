@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - '**'
       - 'main'
     paths:
       - 'front-end/**'
@@ -37,8 +38,12 @@ jobs:
       - name: Install with npm
         working-directory: front-end/
         run: npm install
+      - name: Test Angular Application
+        uses: npm test --watch=false
       - name: Build for production
         run: npm run build --prod
+      - name: Real Build?
+        run: ng serve --ssl
 
   deploy:
     name: Deploy Angular App
