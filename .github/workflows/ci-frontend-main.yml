@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install
         working-directory: ./frontend
-        uses: npm install && npm run build && cp dist/sgcmapp/index.html
+        run: npm install && npm run build && cp dist/sgcmapp/index.html
         with:
           node-version: 16
       - name: Teste
