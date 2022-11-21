@@ -31,6 +31,6 @@ jobs:
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Deploy
         working-directory: front-end/dist/sgcmapp/
-        run: railway up --detach --service sgcm
+        run: railway up --detach --service sgcm-beatriz2
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
