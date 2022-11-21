@@ -15,23 +15,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Compilação / Teste
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache Module
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install
+        working-directory: ./frontend
+        uses: npm install && npm run build && cp dist/sgcmapp/index.html
         with:
           node-version: 16
-      - name: Test
+      - name: Teste
         working-directory: front-end/
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-  package:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Package
-        working-directory: front-end/
-        run: npm run build --prod
+      - name: Deploy
+
+  # package:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Set Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #     - name: Package
+  #       working-directory: front-end/
+  #       run: npm run build --prod
