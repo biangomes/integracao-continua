@@ -22,12 +22,13 @@ jobs:
       - name: Install CLI Angular
         run: npm install -g @angular/cli
       - name: NPM Install
+        working-directory: front-end/
         run: npm install
       - name: Build
-        working-directory: ./front-end/
+        working-directory: front-end/
         run: npm run build --prod
       - name: Teste Angular
-        working-directory: ./front-end/
+        working-directory: front-end/
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Deploy
         working-directory: front-end/dist/sgcmapp/
