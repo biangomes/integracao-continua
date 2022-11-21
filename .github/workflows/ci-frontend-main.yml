@@ -1,8 +1,6 @@
 name: CI Front-end
 
 on:
-  # permite que execute o workflow a partir do github
-  workflow_dispatch:
   push:
     branches:
       - 'main'
@@ -11,35 +9,40 @@ on:
   pull_request:
     paths:
       - 'front-end/**'
+  workflow_call:
     
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Compilação / Teste
-        working-directory: front-end/
-        run: npm install
-      - name: Teste aplicação
-        run: npm run test
-      - name: Build Projeto
-        run: npm run build
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache Module
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install
+        working-directory: ./frontend
+        run: npm install && npm run build && cp dist/sgcmapp/index.html
         with:
           node-version: 16
-      - name: Install CLI Angular
-        uses: npm install -g @angular/cli
-      - name: Install with npm
+      - name: Teste
         working-directory: front-end/
-        run: npm install
-      - name: Build for production
-        run: npm run build --prod
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: Deploy
 
-  deploy:
-    name: Deploy Angular App
-    runs-on: ubuntu-latest
+  # package:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Set Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #     - name: Package
+  #       working-directory: front-end/
+  #       run: npm run build --prod
