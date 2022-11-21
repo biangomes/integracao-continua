@@ -15,20 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Railway
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout  
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install CLI Angular
-        working-dir: ./frontend
-        run: npm install -g @angular/cli
-      - name: Package
+      - name: Build
         working-directory: front-end/
         run: npm run build --prod
       - name: Instalação do cliente Railway
         run: npm install -g @railway/cli
       - name: Deploy
-        working-directory: front-end/
+        working-directory: front-end/dist/sgcmapp/
         run: railway up --detach --service sgcm
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
