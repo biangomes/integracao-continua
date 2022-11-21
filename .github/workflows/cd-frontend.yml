@@ -24,13 +24,13 @@ jobs:
       - name: NPM Install
         run: npm install
       - name: Build
-        working-directory: front-end/
+        working-directory: ./front-end/
         run: npm run build --prod
       - name: Teste Angular
-        working-directory: front-end/
+        working-directory: ./front-end/
         run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Deploy
         working-directory: front-end/dist/sgcmapp/
-        run: railway up --detach --service sgcm-beatriz2
+        run: railway up --detach --service beatriz-front
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
