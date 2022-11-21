@@ -19,6 +19,10 @@ jobs:
       - name: Compilação / Teste
         working-directory: front-end/
         run: npm install
+      - name: Teste aplicação
+        run: npm run test
+      - name: Build Projeto
+        run: npm run build
   build:
     needs: test
     runs-on: ubuntu-latest
