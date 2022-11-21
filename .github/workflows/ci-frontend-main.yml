@@ -1,17 +1,15 @@
 name: CI Front-end
 
 on:
-  # permite que execute o workflow a partir do github
-  workflow_dispatch:
   push:
     branches:
-      - '**'
       - 'main'
     paths:
       - 'front-end/**'
   pull_request:
     paths:
       - 'front-end/**'
+  workflow_call:
     
 jobs:
   test:
@@ -19,32 +17,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Compilação / Teste
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Test
         working-directory: front-end/
-        run: npm install
-      - name: Teste aplicação
-        run: npm run test
-      - name: Build Projeto
-        run: npm run build
-  build:
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  package:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Set Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install CLI Angular
-        uses: npm install -g @angular/cli
-      - name: Install with npm
+      - name: Package
         working-directory: front-end/
-        run: npm install
-      - name: Test Angular Application
-        uses: npm test --watch=false
-      - name: Build for production
         run: npm run build --prod
-      - name: Real Build?
-        run: ng serve --ssl
-
-  deploy:
-    name: Deploy Angular App
-    runs-on: ubuntu-latest
