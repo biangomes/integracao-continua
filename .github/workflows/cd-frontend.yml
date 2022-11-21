@@ -18,6 +18,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Teste Angular
+        working-directory: front-end/
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Build
         working-directory: front-end/
         run: npm run build --prod
