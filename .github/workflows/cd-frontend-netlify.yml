@@ -20,7 +20,7 @@ jobs:
 #       - name: Instalação do cliente Railway
 #         run: npm install -g @railway/cli
       - name: Copia do arquivo netlify.toml
-        run: cp front-end/netlify.toml front-end/dist/sgcmapp/
+        run: cp front-end/netlify.toml front-end/dist/sgcmapp
       - name: Instalação do cliente Netlify
         run: npm install -g netlify-cli
       - name: Install CLI Angular
