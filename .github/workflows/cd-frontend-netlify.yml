@@ -28,12 +28,12 @@ jobs:
       - name: NPM Install
         working-directory: front-end/
         run: npm install
-      - name: Teste Angular
-        working-directory: front-end/
-        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Build
         working-directory: front-end/
         run: npm run build --prod
+      - name: Teste Angular
+        working-directory: front-end/
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Deploy
         working-directory: front-end/dist/sgcmapp
         run: netlify deploy --auth=${{ secrets.NETLIFY_DEPLOY }} --dir=front-end/dist/sgcmapp --site=${{ secrets.NETLIFY_DEPLOY_SITE_ID }} --prod
