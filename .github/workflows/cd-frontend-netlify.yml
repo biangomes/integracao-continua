@@ -7,10 +7,6 @@ on:
   workflow_dispatch:
     
 jobs:
-  ci:
-    name: CI workflow main
-    uses: ./.github/workflows/ci-frontend-main.yml
-
   deploy:
     runs-on: ubuntu-latest
     name: Deploy Netlify
